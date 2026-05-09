@@ -356,6 +356,35 @@
     transition: border-color 0.2s ease;
   }
   .table-card:focus-within { border-color: var(--ink); }
+
+  .assign-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(to right, rgba(197, 59, 29, 0.10), rgba(197, 59, 29, 0.02));
+    color: var(--chef);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.55rem 0.85rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    border-left: 3px solid var(--flame);
+    animation: hintFadeIn 0.3s ease;
+  }
+  .assign-hint .arrow {
+    font-size: 1.05rem;
+    line-height: 1;
+    animation: bounce 1.4s ease-in-out infinite;
+  }
+  @keyframes hintFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
+  }
+
   .table-row1 { display: flex; gap: 0.6rem; margin-bottom: 0.85rem; align-items: center; }
   .table-label {
     flex: 0 0 130px;
@@ -603,14 +632,188 @@
     .sec-head h2 { font-size: 1.2rem; }
   }
 
-  /* PRINT */
+  /* PRINT-ONLY VIEW (hidden onscreen, shown when printing) */
+  .print-only { display: none; }
+
   @media print {
-    body { background: white; }
-    .no-print, .action-bar, .settings-card, .role-picker, .staff-add, .delete-table, .chip:not(.active), .add-table-btn, .lang-toggle { display: none !important; }
-    section, .total-banner { box-shadow: none; border: 1px solid #ccc; }
-    .total-banner { background: white; color: black; }
-    .total-banner::before { display: none; }
+    @page { margin: 0.5in 0.6in; size: letter; }
+    html, body {
+      background: white !important;
+      color: #000 !important;
+      font-family: 'DM Sans', 'Noto Sans SC', system-ui, sans-serif;
+      font-size: 10.5pt;
+    }
+    html[lang="zh"] body { font-family: 'Noto Sans SC', 'DM Sans', system-ui, sans-serif; }
+
+    /* Hide the app */
+    .wrap, .toast { display: none !important; }
+
+    /* Show the print sheet */
+    .print-only { display: block !important; }
+
+    .print-sheet {
+      max-width: 100%;
+      color: #000;
+    }
+
+    .print-head {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding-bottom: 10pt;
+      margin-bottom: 14pt;
+      border-bottom: 2px solid #000;
+    }
+    .print-head img {
+      width: 40pt; height: 40pt;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .print-head .titles { flex: 1; }
+    .print-head h1 {
+      font-family: 'Fraunces', 'Noto Serif SC', serif;
+      font-size: 16pt;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+    .print-head .date {
+      font-size: 10pt;
+      color: #444;
+      margin-top: 2pt;
+    }
+    .print-head .meta {
+      text-align: right;
+      font-size: 9.5pt;
+      color: #333;
+      font-variant-numeric: tabular-nums;
+    }
+    .print-head .meta .tot {
+      font-family: 'Fraunces', 'Noto Serif SC', serif;
+      font-size: 18pt;
+      font-weight: 700;
+      color: #000;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 2pt;
+    }
+
+    .print-section {
+      margin-bottom: 14pt;
+      page-break-inside: avoid;
+    }
+    .print-section h2 {
+      font-family: 'Fraunces', 'Noto Serif SC', serif;
+      font-size: 11pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding-bottom: 4pt;
+      margin-bottom: 6pt;
+      border-bottom: 1px solid #000;
+    }
+    html[lang="zh"] .print-section h2 {
+      text-transform: none;
+      letter-spacing: 0.04em;
+      font-size: 12pt;
+    }
+
+    table.print-tables {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10pt;
+    }
+    table.print-tables th,
+    table.print-tables td {
+      padding: 4pt 6pt;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid #ddd;
+    }
+    table.print-tables th {
+      font-size: 8.5pt;
+      font-weight: 700;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid #000;
+    }
+    html[lang="zh"] table.print-tables th { text-transform: none; letter-spacing: 0.02em; font-size: 9.5pt; }
+    table.print-tables td.num {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      text-align: right;
+      white-space: nowrap;
+      width: 60pt;
+    }
+    table.print-tables td.label-col {
+      font-weight: 600;
+      white-space: nowrap;
+      width: 70pt;
+    }
+    table.print-tables td.role-cell { font-size: 9.5pt; }
+    table.print-tables td.role-cell .empty-cell { color: #999; }
+
+    .print-payout-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 24pt;
+      row-gap: 4pt;
+    }
+    .print-payout-group {
+      page-break-inside: avoid;
+      margin-bottom: 6pt;
+    }
+    .print-payout-group h3 {
+      font-size: 9pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #555;
+      padding-bottom: 2pt;
+      margin-bottom: 3pt;
+      border-bottom: 1px dashed #aaa;
+    }
+    html[lang="zh"] .print-payout-group h3 { text-transform: none; letter-spacing: 0.04em; font-size: 10pt; }
+    .print-payout-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 3pt 0;
+      font-size: 10.5pt;
+      border-bottom: 1px dotted #ccc;
+    }
+    .print-payout-row:last-child { border-bottom: none; }
+    .print-payout-row .name { font-weight: 600; }
+    .print-payout-row .amt {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .print-footer {
+      margin-top: 18pt;
+      padding-top: 8pt;
+      border-top: 1px solid #000;
+      display: flex;
+      justify-content: space-between;
+      font-size: 9pt;
+      color: #444;
+    }
+    .print-footer .check {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    html[lang="zh"] .print-footer .check { font-family: 'Noto Sans SC', monospace; }
+    .print-footer .check strong { color: #000; }
+
+    .print-empty {
+      text-align: center;
+      padding: 30pt 10pt;
+      color: #888;
+      font-size: 10pt;
+    }
   }
+
 </style>
 </head>
 <body>
@@ -711,6 +914,8 @@
 
 </div>
 
+<div class="print-only" id="printArea"></div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -745,6 +950,7 @@ const I18N = {
     newTableBtn: '+ New Table',
     noTables: 'No tables yet. Tap "New Table" to add one.',
     tableLabelPrefix: 'Table',
+    assignHint: 'Tap names below to assign staff to this table',
     payoutHeading: 'End-of-Day Payout',
     payoutHint: 'Auto-calculated',
     noPayouts: 'No payouts yet. Add tables with tips and assign staff.',
@@ -774,6 +980,21 @@ const I18N = {
     summaryTotal: (tips, count) => `Total tips: ${tips} across ${count} tables`,
     summarySectionTitle: roleName => `-- ${roleName.toUpperCase()}S --`,
     summaryUnalloc: amt => `Unallocated: ${amt}`,
+    printAppTitle: 'Hibachi Tip Payout',
+    printTablesHeading: 'Tables',
+    printPayoutHeading: 'End-of-Day Payout',
+    printColTable: 'Table',
+    printColTip: 'Tip',
+    printColChef: 'Chef',
+    printColServer: 'Server',
+    printColHelper: 'Helper',
+    printNone: '—',
+    printMetaTables: n => `${n} tables`,
+    printMetaPeople: n => `${n} people`,
+    printDistributedFooter: (a, b) => `Distributed: ${a} of ${b}`,
+    printAllAccounted: 'All tips accounted for',
+    printUnallocFooter: amt => `Unallocated: ${amt}`,
+    printEmpty: 'No tables to print yet.',
     dateOpts: { weekday: 'long', month: 'long', day: 'numeric' },
     fullDateOpts: { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' },
   },
@@ -800,6 +1021,7 @@ const I18N = {
     newTableBtn: '+ 新增桌台',
     noTables: '还没有桌台。点击"新增桌台"开始记录。',
     tableLabelPrefix: '桌台',
+    assignHint: '点击下方姓名将员工添加到此桌',
     payoutHeading: '今日小费分配',
     payoutHint: '自动计算',
     noPayouts: '暂无分配。请添加桌台、输入小费并指派员工。',
@@ -829,6 +1051,21 @@ const I18N = {
     summaryTotal: (tips, count) => `小费总额：${tips}，共 ${count} 桌`,
     summarySectionTitle: roleName => `—— ${roleName} ——`,
     summaryUnalloc: amt => `未分配：${amt}`,
+    printAppTitle: '铁板烧小费分配',
+    printTablesHeading: '桌台明细',
+    printPayoutHeading: '当日小费分配',
+    printColTable: '桌台',
+    printColTip: '小费',
+    printColChef: '厨师',
+    printColServer: '服务员',
+    printColHelper: '助手',
+    printNone: '—',
+    printMetaTables: n => `${n} 桌`,
+    printMetaPeople: n => `${n} 人`,
+    printDistributedFooter: (a, b) => `已分配：${a}，共 ${b}`,
+    printAllAccounted: '全部小费已分配',
+    printUnallocFooter: amt => `未分配：${amt}`,
+    printEmpty: '暂无可打印的桌台。',
     dateOpts: { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' },
     fullDateOpts: { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' },
   },
@@ -994,6 +1231,7 @@ function renderTables() {
   }
   wrap.innerHTML = state.tables.map(table => {
     const split = calcTableSplit(table);
+    const noStaffAssigned = table.staffIds.length === 0;
     return `
       <div class="table-card" data-id="${table.id}">
         <div class="table-row1">
@@ -1006,6 +1244,7 @@ function renderTables() {
           </div>
           <button class="btn-icon delete-table" data-act="rmTable" data-id="${table.id}" title="✕">✕</button>
         </div>
+        ${noStaffAssigned && state.staff.length > 0 ? `<div class="assign-hint"><span class="arrow">👇</span><span>${escapeHtml(t('assignHint'))}</span></div>` : ''}
         ${ROLES.map(r => renderRoleSection(table, r)).join('')}
         ${parseFloat(table.tip) > 0 ? renderTableSplitSummary(split) : ''}
       </div>
@@ -1263,7 +1502,127 @@ document.getElementById('copyBtn').addEventListener('click', async () => {
   }
 });
 
-document.getElementById('printBtn').addEventListener('click', () => window.print());
+document.getElementById('printBtn').addEventListener('click', () => {
+  renderPrintArea();
+  // Give the browser a tick to apply the print DOM, then open the print dialog
+  setTimeout(() => window.print(), 50);
+});
+
+function renderPrintArea() {
+  const area = document.getElementById('printArea');
+  const { totals, totalTips, totalUnalloc } = calcDaily();
+  const d = new Date();
+  const dateStr = d.toLocaleDateString(I18N[lang].locale, I18N[lang].fullDateOpts);
+
+  // Find the logo data URI from the brand-mark img
+  const logoSrc = document.querySelector('.brand-mark img')?.src || '';
+
+  if (state.tables.length === 0) {
+    area.innerHTML = `
+      <div class="print-sheet">
+        <div class="print-head">
+          ${logoSrc ? `<img src="${logoSrc}" alt="">` : ''}
+          <div class="titles">
+            <h1>${escapeHtml(t('printAppTitle'))}</h1>
+            <div class="date">${escapeHtml(dateStr)}</div>
+          </div>
+        </div>
+        <div class="print-empty">${escapeHtml(t('printEmpty'))}</div>
+      </div>
+    `;
+    return;
+  }
+
+  // Build tables rows
+  const tableRows = state.tables.map(table => {
+    const assigned = tableAssignmentsByRole(table);
+    const cellFor = role => {
+      const names = assigned[role].map(s => escapeHtml(s.name)).join(', ');
+      return names || `<span class="empty-cell">${escapeHtml(t('printNone'))}</span>`;
+    };
+    return `
+      <tr>
+        <td class="label-col">${escapeHtml(table.label || '')}</td>
+        <td class="num">${fmt(parseFloat(table.tip) || 0)}</td>
+        <td class="role-cell">${cellFor('chef')}</td>
+        <td class="role-cell">${cellFor('server')}</td>
+        <td class="role-cell">${cellFor('helper')}</td>
+      </tr>
+    `;
+  }).join('');
+
+  // Build payout groups by role
+  const earners = state.staff
+    .filter(s => totals[s.id] > 0)
+    .map(s => ({ ...s, amount: totals[s.id] }))
+    .sort((a, b) => b.amount - a.amount);
+
+  const payoutGroups = ROLES.map(role => {
+    const grp = earners.filter(e => e.role === role);
+    if (grp.length === 0) return '';
+    const rows = grp.map(e => `
+      <div class="print-payout-row">
+        <span class="name">${escapeHtml(e.name)}</span>
+        <span class="amt">${fmt(e.amount)}</span>
+      </div>
+    `).join('');
+    return `
+      <div class="print-payout-group">
+        <h3>${escapeHtml(tRoleLabel(role))}</h3>
+        ${rows}
+      </div>
+    `;
+  }).filter(Boolean).join('');
+
+  // Footer line
+  const distributed = earners.reduce((a, e) => a + e.amount, 0);
+  const footerLeft = totalUnalloc > 0.005
+    ? `<span class="check">${t('printUnallocFooter', `<strong>${fmt(totalUnalloc)}</strong>`)}</span>`
+    : `<span class="check">${escapeHtml(t('printAllAccounted'))} ✓</span>`;
+  const footerRight = `<span class="check">${t('printDistributedFooter', `<strong>${fmt(distributed)}</strong>`, `<strong>${fmt(totalTips)}</strong>`)}</span>`;
+
+  area.innerHTML = `
+    <div class="print-sheet">
+      <div class="print-head">
+        ${logoSrc ? `<img src="${logoSrc}" alt="">` : ''}
+        <div class="titles">
+          <h1>${escapeHtml(t('printAppTitle'))}</h1>
+          <div class="date">${escapeHtml(dateStr)}</div>
+        </div>
+        <div class="meta">
+          <div class="tot">${fmt(totalTips)}</div>
+          <div>${escapeHtml(t('printMetaTables', state.tables.length))} · ${escapeHtml(t('printMetaPeople', earners.length))}</div>
+        </div>
+      </div>
+
+      <div class="print-section">
+        <h2>${escapeHtml(t('printTablesHeading'))}</h2>
+        <table class="print-tables">
+          <thead>
+            <tr>
+              <th>${escapeHtml(t('printColTable'))}</th>
+              <th>${escapeHtml(t('printColTip'))}</th>
+              <th>${escapeHtml(t('printColChef'))}</th>
+              <th>${escapeHtml(t('printColServer'))}</th>
+              <th>${escapeHtml(t('printColHelper'))}</th>
+            </tr>
+          </thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+      </div>
+
+      <div class="print-section">
+        <h2>${escapeHtml(t('printPayoutHeading'))}</h2>
+        <div class="print-payout-grid">${payoutGroups}</div>
+      </div>
+
+      <div class="print-footer">
+        ${footerLeft}
+        ${footerRight}
+      </div>
+    </div>
+  `;
+}
 
 function buildSummaryText() {
   const { totals, totalTips, totalUnalloc } = calcDaily();
