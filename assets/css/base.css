@@ -1,0 +1,44 @@
+:root {
+    --bg: #F7F2EA;
+    --bg-tint: #EFE7DA;
+    --surface: #FFFFFF;
+    --ink: #1B1815;
+    --ink-2: #4A3F36;
+    --ink-3: #8B7B6C;
+    --line: #E3D9C9;
+    --line-strong: #C9BCA6;
+    --flame: #C53B1D;
+    --flame-soft: #F8E5DE;
+    --chef: #9C2E14;
+    --chef-bg: #F8E2DA;
+    --server: #B5701F;
+    --server-bg: #F7E9D2;
+    --helper: #4F6B43;
+    --helper-bg: #E2EAD9;
+    --shadow: 0 1px 2px rgba(27, 24, 21, 0.04), 0 4px 14px rgba(27, 24, 21, 0.06);
+    --shadow-lg: 0 4px 8px rgba(27, 24, 21, 0.06), 0 16px 36px rgba(27, 24, 21, 0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', 'Noto Sans SC', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  html[lang="zh"] body { font-family: 'Noto Sans SC', 'DM Sans', system-ui, sans-serif; }
+
+  body {
+    background-image:
+      radial-gradient(circle at 10% 0%, rgba(197, 59, 29, 0.05), transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(79, 107, 67, 0.05), transparent 40%);
+    padding-bottom: 4rem;
+  }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 1.5rem 1.25rem; }
