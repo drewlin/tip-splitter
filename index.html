@@ -304,9 +304,7 @@
   }
   .role-picker input { display: none; }
   .role-picker input:checked + label { color: white; background: var(--ink); }
-  .role-picker input[value="chef"]:checked + label { background: var(--chef); }
-  .role-picker input[value="server"]:checked + label { background: var(--server); }
-  .role-picker input[value="helper"]:checked + label { background: var(--helper); }
+  .role-picker input:checked + label { background: var(--role-color, var(--ink)); }
 
   .staff-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .staff-pill {
@@ -316,9 +314,7 @@
     font-size: 0.85rem; font-weight: 500;
     border: 1px solid;
   }
-  .staff-pill.chef { background: var(--chef-bg); border-color: rgba(156, 46, 20, 0.2); color: var(--chef); }
-  .staff-pill.server { background: var(--server-bg); border-color: rgba(181, 112, 31, 0.2); color: var(--server); }
-  .staff-pill.helper { background: var(--helper-bg); border-color: rgba(79, 107, 67, 0.2); color: var(--helper); }
+  .staff-pill { background: var(--role-bg, var(--bg-tint)); border-color: var(--role-border, var(--line)); color: var(--role-color, var(--ink-2)); }
   .staff-pill .role-tag {
     font-size: 0.65rem;
     text-transform: uppercase;
@@ -437,9 +433,7 @@
     gap: 0.4rem;
   }
   html[lang="zh"] .role-section .role-label { text-transform: none; letter-spacing: 0.04em; font-size: 0.78rem; }
-  .role-section.chef .role-label { color: var(--chef); }
-  .role-section.server .role-label { color: var(--server); }
-  .role-section.helper .role-label { color: var(--helper); }
+  .role-section .role-label { color: var(--role-color, var(--ink-2)); }
   .role-section .role-label .pct {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.75rem;
@@ -465,9 +459,7 @@
     user-select: none;
   }
   .chip:hover { border-color: var(--ink-3); }
-  .chip.active.chef { background: var(--chef); color: white; border-color: var(--chef); }
-  .chip.active.server { background: var(--server); color: white; border-color: var(--server); }
-  .chip.active.helper { background: var(--helper); color: white; border-color: var(--helper); }
+  .chip.active { background: var(--role-color, var(--ink)); color: white; border-color: var(--role-color, var(--ink)); }
   .chip-empty {
     font-size: 0.8rem;
     color: var(--ink-3);
@@ -487,9 +479,7 @@
   }
   .table-split .item { display: flex; align-items: center; gap: 0.35rem; }
   .table-split .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-  .table-split .dot.chef { background: var(--chef); }
-  .table-split .dot.server { background: var(--server); }
-  .table-split .dot.helper { background: var(--helper); }
+  .table-split .dot { background: var(--role-color, var(--ink-3)); }
   .table-split .amt {
     font-family: 'JetBrains Mono', monospace;
     font-weight: 600;
@@ -508,9 +498,7 @@
   .summary-row:last-child { border-bottom: none; }
   .summary-row .person { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
   .role-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .role-dot.chef { background: var(--chef); }
-  .role-dot.server { background: var(--server); }
-  .role-dot.helper { background: var(--helper); }
+  .role-dot { background: var(--role-color, var(--ink-3)); }
   .summary-row .name { font-weight: 600; font-size: 1rem; }
   .summary-row .role-text {
     font-size: 0.7rem;
@@ -569,6 +557,80 @@
     margin-top: 0.15rem;
     line-height: 1.45;
   }
+  .settings-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .settings-actions {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .settings-section[hidden] { display: none; }
+  .settings-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.65rem;
+  }
+  .settings-title .label { font-size: 0.9rem; font-weight: 600; }
+  .settings-title .total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-3);
+  }
+  .role-settings-list { display: grid; gap: 0.5rem; }
+  .role-setting-row {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) 94px 32px;
+    gap: 0.45rem;
+    align-items: center;
+  }
+  .role-setting-row input {
+    min-width: 0;
+    padding: 0.5rem 0.65rem;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font: inherit;
+    color: var(--ink);
+  }
+  .role-setting-row input:focus { outline: none; border-color: var(--ink); }
+  .pct-field { position: relative; }
+  .pct-field input { width: 100%; padding-right: 1.5rem; font-family: 'JetBrains Mono', monospace; }
+  .pct-field::after {
+    content: '%';
+    position: absolute;
+    right: 0.55rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-3);
+    font-size: 0.78rem;
+    pointer-events: none;
+  }
+  .role-setting-row .swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--role-color, var(--ink-3));
+    margin-left: 0.15rem;
+    flex-shrink: 0;
+  }
+  .role-name-wrap { display: flex; align-items: center; gap: 0.45rem; min-width: 0; }
+  .role-add-row { display: flex; gap: 0.5rem; margin-top: 0.65rem; flex-wrap: wrap; }
+  .role-add-row input {
+    flex: 1 1 140px;
+    min-width: 0;
+    padding: 0.55rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font: inherit;
+    color: var(--ink);
+  }
+  .role-add-row input:focus { outline: none; border-color: var(--ink); }
   .switch { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
   .switch input { opacity: 0; width: 0; height: 0; }
   .switch .slider {
@@ -628,6 +690,7 @@
     .table-row1 { flex-wrap: wrap; }
     .table-label { flex: 0 0 100%; }
     .tip-input-wrap { flex: 1; }
+    .role-setting-row { grid-template-columns: minmax(0, 1fr) 82px 32px; }
     section { padding: 1rem; }
     .sec-head h2 { font-size: 1.2rem; }
   }
@@ -859,14 +922,7 @@
     </div>
     <form class="staff-add" id="staffForm" onsubmit="return false">
       <input type="text" id="staffName" data-i18n-placeholder="namePlaceholder" placeholder="Name" maxlength="40" autocomplete="off">
-      <div class="role-picker">
-        <input type="radio" name="newRole" id="rChef" value="chef" checked>
-        <label for="rChef" data-i18n="chef">Chef</label>
-        <input type="radio" name="newRole" id="rServer" value="server">
-        <label for="rServer" data-i18n="server">Server</label>
-        <input type="radio" name="newRole" id="rHelper" value="helper">
-        <label for="rHelper" data-i18n="helper">Helper</label>
-      </div>
+      <div class="role-picker" id="rolePicker"></div>
       <button class="btn btn-primary" id="addStaffBtn" data-i18n="addBtn">+ Add</button>
     </form>
     <div class="staff-list" id="staffList"></div>
@@ -903,6 +959,24 @@
         <span class="slider"></span>
       </label>
     </div>
+    <div class="settings-actions">
+      <button class="btn btn-ghost btn-sm" id="toggleRolesBtn" data-i18n="editRolesBtn">Edit roles</button>
+    </div>
+    <div class="settings-section" id="rolesSettingsSection" hidden>
+      <div class="settings-title">
+        <div>
+          <div class="label" data-i18n="rolesSettingsLabel">Roles & percentages</div>
+          <div class="desc" data-i18n="rolesSettingsDesc">Edit role names and tip weights. Add custom roles for your restaurant.</div>
+        </div>
+        <div class="total" id="rolePctTotal"></div>
+      </div>
+      <div class="role-settings-list" id="roleSettingsList"></div>
+      <div class="role-add-row">
+        <input type="text" id="newRoleName" data-i18n-placeholder="newRoleNamePlaceholder" placeholder="New role" maxlength="24" autocomplete="off">
+        <input type="number" id="newRolePct" data-i18n-placeholder="newRolePctPlaceholder" placeholder="%" min="0" max="100" step="1">
+        <button class="btn btn-ghost btn-sm" id="addRoleBtn" data-i18n="addRoleBtn">+ Add role</button>
+      </div>
+    </div>
   </div>
 
   <!-- ACTIONS -->
@@ -922,8 +996,12 @@
 'use strict';
 
 const STORAGE_KEY = 'hibachi-tip-splitter-v1';
-const ROLES = ['chef', 'server', 'helper'];
-const ROLE_PCT = { chef: 0.40, server: 0.50, helper: 0.10 };
+const DEFAULT_ROLES = [
+  { id: 'chef', pct: 40, color: '#9C2E14', builtin: true },
+  { id: 'server', pct: 50, color: '#B5701F', builtin: true },
+  { id: 'helper', pct: 10, color: '#4F6B43', builtin: true },
+];
+const ROLE_COLORS = ['#9C2E14', '#B5701F', '#4F6B43', '#3F6F8F', '#7A4E8A', '#2F7D69', '#8A5A44', '#5E6482'];
 
 /* ---------- i18n ---------- */
 const I18N = {
@@ -932,6 +1010,7 @@ const I18N = {
     locale: undefined, // browser default
     appTitle: 'Tip Splitter',
     subtitle: 'Hibachi · Chef 40% · Server 50% · Helper 10%',
+    subtitlePrefix: 'Hibachi',
     tipsTodayLabel: 'Tips collected today',
     tablesUnit: 'tables',
     earningUnit: 'people earning',
@@ -960,6 +1039,14 @@ const I18N = {
     unallocatedInline: amt => `⚠ ${amt} unallocated`,
     redistributeLabel: 'Redistribute when a role is missing',
     redistributeDesc: 'If a table has no helper, the 10% redistributes proportionally to chef & server. Turn off to flag unallocated amounts instead.',
+    editRolesBtn: 'Edit roles',
+    doneRolesBtn: 'Done',
+    rolesSettingsLabel: 'Roles & percentages',
+    rolesSettingsDesc: 'Edit role names and tip weights. Add custom roles for your restaurant.',
+    rolePctTotal: pct => `Total ${pct}%`,
+    newRoleNamePlaceholder: 'New role',
+    newRolePctPlaceholder: '%',
+    addRoleBtn: '+ Add role',
     copyBtn: '📋 Copy summary',
     printBtn: '🖨 Print',
     resetBtn: 'Reset day',
@@ -967,6 +1054,9 @@ const I18N = {
     confirmDeleteTable: label => `Delete ${label || 'this table'}?`,
     confirmResetDay: 'Clear all tables for the day? Staff list stays.',
     toastDuplicate: (name, role) => `${name} is already added as ${role}`,
+    toastRoleExists: role => `${role} already exists`,
+    toastNeedRoleName: 'Enter a role name',
+    toastCannotRemoveRole: role => `Remove staff from ${role} before deleting this role`,
     toastNoTablesReset: 'No tables to reset',
     toastDayReset: 'Day reset · staff kept',
     toastCopied: 'Summary copied to clipboard',
@@ -1003,6 +1093,7 @@ const I18N = {
     locale: 'zh-CN',
     appTitle: '小费分配',
     subtitle: '铁板烧 · 厨师 40% · 服务员 50% · 助手 10%',
+    subtitlePrefix: '铁板烧',
     tipsTodayLabel: '今日小费总额',
     tablesUnit: '桌',
     earningUnit: '人参与分配',
@@ -1031,6 +1122,14 @@ const I18N = {
     unallocatedInline: amt => `⚠ 未分配 ${amt}`,
     redistributeLabel: '缺少角色时按比例重分',
     redistributeDesc: '若桌台没有助手，10% 会按比例分给厨师和服务员。关闭则会标记未分配金额。',
+    editRolesBtn: '编辑角色',
+    doneRolesBtn: '完成',
+    rolesSettingsLabel: '角色与百分比',
+    rolesSettingsDesc: '可编辑角色名称和小费权重，也可添加自定义角色。',
+    rolePctTotal: pct => `合计 ${pct}%`,
+    newRoleNamePlaceholder: '新角色',
+    newRolePctPlaceholder: '%',
+    addRoleBtn: '+ 添加角色',
     copyBtn: '📋 复制总结',
     printBtn: '🖨 打印',
     resetBtn: '重置当日',
@@ -1038,6 +1137,9 @@ const I18N = {
     confirmDeleteTable: label => `删除 ${label || '此桌台'}？`,
     confirmResetDay: '清除当日所有桌台？员工列表保留。',
     toastDuplicate: (name, role) => `${name} 已添加为${role}`,
+    toastRoleExists: role => `${role} 已存在`,
+    toastNeedRoleName: '请输入角色名称',
+    toastCannotRemoveRole: role => `请先移除${role}员工，再删除此角色`,
     toastNoTablesReset: '没有桌台可重置',
     toastDayReset: '已重置 · 员工保留',
     toastCopied: '总结已复制到剪贴板',
@@ -1079,18 +1181,71 @@ function t(key, ...args) {
   return v != null ? v : key;
 }
 function tRole(role) {
-  return I18N[lang][role];
+  const def = getRole(role);
+  if (def?.builtin && I18N[lang][role]) return I18N[lang][role];
+  return def?.name || role;
 }
 function tRoleLabel(role) {
-  // For role section headings ("Chefs", "Servers"...)
-  return I18N[lang][role + 'RoleLabel'];
+  const def = getRole(role);
+  if (def?.builtin && I18N[lang][role + 'RoleLabel']) return I18N[lang][role + 'RoleLabel'];
+  return def?.name || role;
+}
+
+function freshDefaultRoles() {
+  return DEFAULT_ROLES.map(r => ({ ...r }));
+}
+
+function normalizeRole(raw, index = 0) {
+  const fallback = DEFAULT_ROLES[index] || DEFAULT_ROLES[0];
+  const id = String(raw?.id || uid()).replace(/[^a-z0-9_-]/gi, '').toLowerCase() || uid();
+  const pct = Math.max(0, Number(raw?.pct ?? fallback.pct) || 0);
+  const color = /^#[0-9a-f]{6}$/i.test(raw?.color || '') ? raw.color : ROLE_COLORS[index % ROLE_COLORS.length];
+  return {
+    id,
+    name: String(raw?.name || '').trim(),
+    pct,
+    color,
+    builtin: Boolean(raw?.builtin || DEFAULT_ROLES.some(r => r.id === id)),
+  };
+}
+
+function getRoles() {
+  return state.roles;
+}
+
+function getRole(roleId) {
+  return state.roles.find(r => r.id === roleId);
+}
+
+function roleColor(roleId) {
+  return getRole(roleId)?.color || '#4A3F36';
+}
+
+function hexToRgba(hex, alpha) {
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!m) return `rgba(74, 63, 54, ${alpha})`;
+  return `rgba(${parseInt(m[1], 16)}, ${parseInt(m[2], 16)}, ${parseInt(m[3], 16)}, ${alpha})`;
+}
+
+function roleStyle(roleId) {
+  const color = roleColor(roleId);
+  return `style="--role-color:${escapeAttr(color)};--role-bg:${escapeAttr(hexToRgba(color, 0.12))};--role-border:${escapeAttr(hexToRgba(color, 0.28))}"`;
+}
+
+function roleRatios() {
+  const total = getRoles().reduce((sum, r) => sum + Math.max(0, Number(r.pct) || 0), 0);
+  const ratios = {};
+  getRoles().forEach(r => { ratios[r.id] = total > 0 ? Math.max(0, Number(r.pct) || 0) / total : 0; });
+  return ratios;
 }
 
 const state = {
   staff: [],
   tables: [],
+  roles: freshDefaultRoles(),
   redistribute: true,
 };
+let rolesEditorOpen = false;
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 const fmt = (n) => '$' + (Math.round(n * 100) / 100).toFixed(2);
@@ -1102,6 +1257,12 @@ function load() {
       const data = JSON.parse(raw);
       if (Array.isArray(data.staff)) state.staff = data.staff;
       if (Array.isArray(data.tables)) state.tables = data.tables;
+      if (Array.isArray(data.roles) && data.roles.length) state.roles = data.roles.map(normalizeRole);
+      DEFAULT_ROLES.forEach((role, idx) => {
+        if (!state.roles.some(r => r.id === role.id)) state.roles.splice(idx, 0, { ...role });
+      });
+      const validRoleIds = new Set(state.roles.map(r => r.id));
+      state.staff.forEach(s => { if (!validRoleIds.has(s.role)) s.role = 'helper'; });
       if (typeof data.redistribute === 'boolean') state.redistribute = data.redistribute;
       if (data.lang === 'en' || data.lang === 'zh') lang = data.lang;
     }
@@ -1113,6 +1274,7 @@ function save() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       staff: state.staff,
       tables: state.tables,
+      roles: state.roles,
       redistribute: state.redistribute,
       lang,
     }));
@@ -1122,52 +1284,50 @@ function save() {
 /* ---------- Calculation ---------- */
 
 function tableAssignmentsByRole(table) {
-  return {
-    chef: state.staff.filter(s => s.role === 'chef' && table.staffIds.includes(s.id)),
-    server: state.staff.filter(s => s.role === 'server' && table.staffIds.includes(s.id)),
-    helper: state.staff.filter(s => s.role === 'helper' && table.staffIds.includes(s.id)),
-  };
+  const assigned = {};
+  getRoles().forEach(role => {
+    assigned[role.id] = state.staff.filter(s => s.role === role.id && table.staffIds.includes(s.id));
+  });
+  return assigned;
 }
 
 function calcTableSplit(table) {
   const tip = parseFloat(table.tip) || 0;
   const assigned = tableAssignmentsByRole(table);
-  const counts = { chef: assigned.chef.length, server: assigned.server.length, helper: assigned.helper.length };
+  const counts = {};
+  getRoles().forEach(role => { counts[role.id] = assigned[role.id].length; });
 
-  let ratios = { ...ROLE_PCT };
+  let ratios = roleRatios();
 
   if (state.redistribute) {
-    const missingTotal = ROLES.filter(r => counts[r] === 0).reduce((a, r) => a + ROLE_PCT[r], 0);
+    const missingTotal = getRoles().filter(r => counts[r.id] === 0).reduce((a, r) => a + ratios[r.id], 0);
     const presentTotal = 1 - missingTotal;
     if (missingTotal > 0 && presentTotal > 0) {
-      ROLES.forEach(r => {
-        if (counts[r] === 0) ratios[r] = 0;
-        else ratios[r] = ROLE_PCT[r] + (ROLE_PCT[r] / presentTotal) * missingTotal;
+      getRoles().forEach(r => {
+        if (counts[r.id] === 0) ratios[r.id] = 0;
+        else ratios[r.id] = ratios[r.id] + (ratios[r.id] / presentTotal) * missingTotal;
       });
     } else {
-      ROLES.forEach(r => { if (counts[r] === 0) ratios[r] = 0; });
+      getRoles().forEach(r => { if (counts[r.id] === 0) ratios[r.id] = 0; });
     }
   } else {
-    ROLES.forEach(r => { if (counts[r] === 0) ratios[r] = 0; });
+    getRoles().forEach(r => { if (counts[r.id] === 0) ratios[r.id] = 0; });
   }
 
-  const pools = {
-    chef: tip * ratios.chef,
-    server: tip * ratios.server,
-    helper: tip * ratios.helper,
-  };
+  const pools = {};
+  getRoles().forEach(r => { pools[r.id] = tip * ratios[r.id]; });
 
   const perPerson = {};
-  ROLES.forEach(r => {
-    if (counts[r] > 0) {
-      const each = pools[r] / counts[r];
-      assigned[r].forEach(s => {
+  getRoles().forEach(r => {
+    if (counts[r.id] > 0) {
+      const each = pools[r.id] / counts[r.id];
+      assigned[r.id].forEach(s => {
         perPerson[s.id] = (perPerson[s.id] || 0) + each;
       });
     }
   });
 
-  const allocated = pools.chef + pools.server + pools.helper;
+  const allocated = Object.values(pools).reduce((a, v) => a + v, 0);
   const unallocated = Math.max(0, tip - allocated);
 
   return { tip, pools, perPerson, counts, assigned, unallocated };
@@ -1204,18 +1364,23 @@ function renderHeader() {
   document.getElementById('staffWorking').textContent = Object.values(totals).filter(v => v > 0).length;
 }
 
+function renderSubtitle() {
+  const split = getRoles().map(role => `${tRole(role.id)} ${Number(role.pct) || 0}%`).join(' · ');
+  document.querySelector('.brand .sub').textContent = `${t('subtitlePrefix')} · ${split}`;
+}
+
 function renderStaff() {
   const list = document.getElementById('staffList');
   if (state.staff.length === 0) {
     list.innerHTML = `<div class="empty">${escapeHtml(t('noStaff'))}</div>`;
     return;
   }
-  const order = { chef: 0, server: 1, helper: 2 };
+  const order = Object.fromEntries(getRoles().map((r, i) => [r.id, i]));
   const sorted = [...state.staff].sort((a, b) =>
-    order[a.role] - order[b.role] || a.name.localeCompare(b.name)
+    (order[a.role] ?? 999) - (order[b.role] ?? 999) || a.name.localeCompare(b.name)
   );
   list.innerHTML = sorted.map(s => `
-    <span class="staff-pill ${s.role}">
+    <span class="staff-pill" ${roleStyle(s.role)}>
       <span class="role-tag">${escapeHtml(tRole(s.role))}</span>
       ${escapeHtml(s.name)}
       <button data-act="rmStaff" data-id="${s.id}" title="×">×</button>
@@ -1245,7 +1410,7 @@ function renderTables() {
           <button class="btn-icon delete-table" data-act="rmTable" data-id="${table.id}" title="✕">✕</button>
         </div>
         ${noStaffAssigned && state.staff.length > 0 ? `<div class="assign-hint"><span class="arrow">👇</span><span>${escapeHtml(t('assignHint'))}</span></div>` : ''}
-        ${ROLES.map(r => renderRoleSection(table, r)).join('')}
+        ${getRoles().map(r => renderRoleSection(table, r.id)).join('')}
         ${parseFloat(table.tip) > 0 ? renderTableSplitSummary(split) : ''}
       </div>
     `;
@@ -1254,18 +1419,18 @@ function renderTables() {
 
 function renderRoleSection(table, role) {
   const staffOfRole = state.staff.filter(s => s.role === role);
-  const pct = (ROLE_PCT[role] * 100).toFixed(0) + '%';
+  const pct = (getRole(role)?.pct || 0).toFixed(0) + '%';
   const chips = staffOfRole.length === 0
     ? `<div class="chip-empty">${escapeHtml(t('noRoleStaff', tRole(role)))}</div>`
     : staffOfRole.map(s => {
         const active = table.staffIds.includes(s.id);
-        return `<button class="chip ${role} ${active ? 'active' : ''}"
+        return `<button class="chip ${active ? 'active' : ''}" ${roleStyle(role)}
                   data-act="toggleStaff" data-table="${table.id}" data-staff="${s.id}">
                   ${escapeHtml(s.name)}
                 </button>`;
       }).join('');
   return `
-    <div class="role-section ${role}">
+    <div class="role-section" ${roleStyle(role)}>
       <div class="role-label">${escapeHtml(tRoleLabel(role))} <span class="pct">${pct}</span></div>
       <div class="chip-group">${chips}</div>
     </div>
@@ -1273,12 +1438,12 @@ function renderRoleSection(table, role) {
 }
 
 function renderTableSplitSummary(split) {
-  const items = ROLES.map(r => {
-    const c = split.counts[r];
+  const items = getRoles().map(r => {
+    const c = split.counts[r.id];
     if (c === 0) return null;
-    const each = split.pools[r] / c;
-    const text = t('splitFmt', c, tRole(r), `<span class="amt">${fmt(each)}</span>`);
-    return `<div class="item"><span class="dot ${r}"></span>${text}</div>`;
+    const each = split.pools[r.id] / c;
+    const text = t('splitFmt', c, tRole(r.id), `<span class="amt">${fmt(each)}</span>`);
+    return `<div class="item"><span class="dot" ${roleStyle(r.id)}></span>${text}</div>`;
   }).filter(Boolean);
   if (split.unallocated > 0.005) {
     items.push(`<div class="item warn">${escapeHtml(t('unallocatedInline', fmt(split.unallocated)))}</div>`);
@@ -1305,7 +1470,7 @@ function renderSummary() {
   list.innerHTML = earners.map(s => `
     <div class="summary-row">
       <div class="person">
-        <span class="role-dot ${s.role}"></span>
+        <span class="role-dot" ${roleStyle(s.role)}></span>
         <div>
           <span class="name">${escapeHtml(s.name)}</span>
           <span class="role-text">${escapeHtml(tRole(s.role))}</span>
@@ -1323,6 +1488,44 @@ function renderSummary() {
     metaHtml += `<div class="check">${escapeHtml(t('allAccounted'))}</div>`;
   }
   meta.innerHTML = metaHtml;
+}
+
+function renderRolePicker() {
+  const picker = document.getElementById('rolePicker');
+  const selected = document.querySelector('input[name="newRole"]:checked')?.value || getRoles()[0]?.id;
+  picker.innerHTML = getRoles().map((role, idx) => {
+    const id = `rolePick${idx}`;
+    const checked = role.id === selected || (!getRole(selected) && idx === 0);
+    return `
+      <input type="radio" name="newRole" id="${id}" value="${escapeAttr(role.id)}" ${checked ? 'checked' : ''}>
+      <label for="${id}" ${roleStyle(role.id)}>${escapeHtml(tRole(role.id))}</label>
+    `;
+  }).join('');
+}
+
+function renderRoleSettings() {
+  const section = document.getElementById('rolesSettingsSection');
+  const toggle = document.getElementById('toggleRolesBtn');
+  section.hidden = !rolesEditorOpen;
+  toggle.textContent = t(rolesEditorOpen ? 'doneRolesBtn' : 'editRolesBtn');
+  const list = document.getElementById('roleSettingsList');
+  const total = getRoles().reduce((sum, r) => sum + (Number(r.pct) || 0), 0);
+  document.getElementById('rolePctTotal').textContent = t('rolePctTotal', total.toFixed(0));
+  list.innerHTML = getRoles().map(role => {
+    const canDelete = !role.builtin;
+    return `
+      <div class="role-setting-row" data-role-id="${escapeAttr(role.id)}">
+        <div class="role-name-wrap">
+          <span class="swatch" ${roleStyle(role.id)}></span>
+          <input type="text" data-role-field="name" value="${escapeAttr(tRole(role.id))}" maxlength="24" ${role.builtin ? 'disabled' : ''}>
+        </div>
+        <div class="pct-field">
+          <input type="number" data-role-field="pct" value="${escapeAttr(role.pct)}" min="0" max="100" step="1">
+        </div>
+        <button class="btn-icon" data-act="rmRole" data-id="${escapeAttr(role.id)}" title="×" ${canDelete ? '' : 'disabled'}>×</button>
+      </div>
+    `;
+  }).join('');
 }
 
 function applyI18nStatic() {
@@ -1344,11 +1547,14 @@ function applyI18nStatic() {
 
 function renderAll() {
   applyI18nStatic();
+  renderRolePicker();
+  renderSubtitle();
   renderDate();
   renderHeader();
   renderStaff();
   renderTables();
   renderSummary();
+  renderRoleSettings();
   document.getElementById('redistToggle').checked = state.redistribute;
 }
 
@@ -1385,6 +1591,11 @@ document.getElementById('staffName').addEventListener('keydown', (e) => {
   }
 });
 
+document.getElementById('toggleRolesBtn').addEventListener('click', () => {
+  rolesEditorOpen = !rolesEditorOpen;
+  renderRoleSettings();
+});
+
 document.getElementById('addTableBtn').addEventListener('click', () => {
   const num = state.tables.length + 1;
   state.tables.push({
@@ -1405,6 +1616,19 @@ document.body.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-act]');
   if (!btn) return;
   const act = btn.dataset.act;
+
+  if (act === 'rmRole') {
+    const roleId = btn.dataset.id;
+    const role = getRole(roleId);
+    if (!role || role.builtin) return;
+    if (state.staff.some(s => s.role === roleId)) {
+      toast(t('toastCannotRemoveRole', tRole(roleId)));
+      return;
+    }
+    state.roles = state.roles.filter(r => r.id !== roleId);
+    save();
+    renderAll();
+  }
 
   if (act === 'rmStaff') {
     const id = btn.dataset.id;
@@ -1439,6 +1663,53 @@ document.body.addEventListener('click', (e) => {
     }
     save();
     renderAll();
+  }
+});
+
+document.getElementById('roleSettingsList').addEventListener('input', (e) => {
+  const field = e.target.closest('[data-role-field]');
+  if (!field) return;
+  const row = field.closest('[data-role-id]');
+  const role = row ? getRole(row.dataset.roleId) : null;
+  if (!role) return;
+  if (field.dataset.roleField === 'name' && !role.builtin) role.name = field.value.trim();
+  if (field.dataset.roleField === 'pct') role.pct = Math.max(0, Number(field.value) || 0);
+  save();
+  renderRolePicker();
+  renderSubtitle();
+  renderTables();
+  renderSummary();
+  const total = getRoles().reduce((sum, r) => sum + (Number(r.pct) || 0), 0);
+  document.getElementById('rolePctTotal').textContent = t('rolePctTotal', total.toFixed(0));
+});
+
+document.getElementById('addRoleBtn').addEventListener('click', () => {
+  const nameEl = document.getElementById('newRoleName');
+  const pctEl = document.getElementById('newRolePct');
+  const name = nameEl.value.trim();
+  if (!name) { toast(t('toastNeedRoleName')); nameEl.focus(); return; }
+  if (getRoles().some(r => tRole(r.id).toLowerCase() === name.toLowerCase())) {
+    toast(t('toastRoleExists', name));
+    return;
+  }
+  const id = `role_${uid()}`;
+  state.roles.push({
+    id,
+    name,
+    pct: Math.max(0, Number(pctEl.value) || 0),
+    color: ROLE_COLORS[state.roles.length % ROLE_COLORS.length],
+    builtin: false,
+  });
+  nameEl.value = '';
+  pctEl.value = '';
+  save();
+  renderAll();
+});
+
+document.getElementById('newRoleName').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.getElementById('addRoleBtn').click();
   }
 });
 
@@ -1544,12 +1815,11 @@ function renderPrintArea() {
       <tr>
         <td class="label-col">${escapeHtml(table.label || '')}</td>
         <td class="num">${fmt(parseFloat(table.tip) || 0)}</td>
-        <td class="role-cell">${cellFor('chef')}</td>
-        <td class="role-cell">${cellFor('server')}</td>
-        <td class="role-cell">${cellFor('helper')}</td>
+        ${getRoles().map(role => `<td class="role-cell">${cellFor(role.id)}</td>`).join('')}
       </tr>
     `;
   }).join('');
+  const roleHeadings = getRoles().map(role => `<th>${escapeHtml(tRoleLabel(role.id))}</th>`).join('');
 
   // Build payout groups by role
   const earners = state.staff
@@ -1557,8 +1827,8 @@ function renderPrintArea() {
     .map(s => ({ ...s, amount: totals[s.id] }))
     .sort((a, b) => b.amount - a.amount);
 
-  const payoutGroups = ROLES.map(role => {
-    const grp = earners.filter(e => e.role === role);
+  const payoutGroups = getRoles().map(role => {
+    const grp = earners.filter(e => e.role === role.id);
     if (grp.length === 0) return '';
     const rows = grp.map(e => `
       <div class="print-payout-row">
@@ -1568,7 +1838,7 @@ function renderPrintArea() {
     `).join('');
     return `
       <div class="print-payout-group">
-        <h3>${escapeHtml(tRoleLabel(role))}</h3>
+        <h3>${escapeHtml(tRoleLabel(role.id))}</h3>
         ${rows}
       </div>
     `;
@@ -1602,9 +1872,7 @@ function renderPrintArea() {
             <tr>
               <th>${escapeHtml(t('printColTable'))}</th>
               <th>${escapeHtml(t('printColTip'))}</th>
-              <th>${escapeHtml(t('printColChef'))}</th>
-              <th>${escapeHtml(t('printColServer'))}</th>
-              <th>${escapeHtml(t('printColHelper'))}</th>
+              ${roleHeadings}
             </tr>
           </thead>
           <tbody>${tableRows}</tbody>
@@ -1636,10 +1904,10 @@ function buildSummaryText() {
     .filter(s => totals[s.id] > 0)
     .map(s => ({ ...s, amount: totals[s.id] }))
     .sort((a, b) => b.amount - a.amount);
-  ROLES.forEach(role => {
-    const grp = earners.filter(e => e.role === role);
+  getRoles().forEach(role => {
+    const grp = earners.filter(e => e.role === role.id);
     if (grp.length === 0) return;
-    lines.push(t('summarySectionTitle', tRoleLabel(role)));
+    lines.push(t('summarySectionTitle', tRoleLabel(role.id)));
     grp.forEach(e => lines.push(`  ${e.name.padEnd(20)} ${fmt(e.amount)}`));
     lines.push('');
   });
