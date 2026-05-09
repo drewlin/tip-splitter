@@ -43,9 +43,23 @@ If multiple chefs (or servers, or helpers) worked the same table, that role's sh
 - Bilingual interface — toggle EN / 中 in the top right
 - Works offline once loaded
 - Data saves automatically in the browser
+- Optional Google Analytics 4 usage tracking
 - Print-friendly summary view
 - Handles missing roles — if a table has no helper, the 10% redistributes proportionally to chef and server (toggleable in settings)
 - Mobile-first design, also works on tablets and desktop
+
+### Google Analytics
+
+The app includes an optional Google Analytics 4 integration. To enable it:
+
+1. Create a GA4 web data stream in Google Analytics
+2. Copy the Measurement ID, which looks like `G-ABC1234567`
+3. Open `index.html`
+4. Replace `G-XXXXXXXXXX` with your real Measurement ID
+
+Analytics stays disabled until that placeholder is replaced.
+
+The app tracks aggregate product usage events such as page load, language changes, adding/removing staff, adding/removing tables, toggling assignments, changing redistribution, copying summaries, printing, and resetting the day. It does not send staff names, table labels, or tip dollar amounts.
 
 ### How the math works
 
@@ -67,7 +81,9 @@ Each person's daily total is the sum of their shares across every table they wor
 
 ### Privacy
 
-All data — staff names, tables, tips — lives only in the browser's local storage on the device using it. Nothing is sent to a server. Each phone, tablet, or computer has its own separate data.
+Staff names, tables, and tip amounts live only in the browser's local storage on the device using the app. They are not sent to the app owner or a custom server. Each phone, tablet, or computer has its own separate data.
+
+If Google Analytics is enabled, aggregate usage events are sent to Google Analytics. These events describe how the app is used, but they do not include staff names, table labels, or tip dollar amounts.
 
 This means:
 - Different devices won't share data with each other
@@ -76,13 +92,20 @@ This means:
 
 ### Hosting your own copy
 
-This is a single static HTML file. To self-host:
+This is a static browser app. To self-host:
 
-1. Download `index.html`
-2. Host it anywhere static — GitHub Pages, Netlify, Cloudflare Pages, or even a USB stick
-3. Open the file in any modern browser
+1. Download `index.html` and the `assets/` folder
+2. Host them together anywhere static — GitHub Pages, Netlify, Cloudflare Pages, or even a USB stick
+3. Open `index.html` in any modern browser
 
 No build step, no dependencies, no server.
+
+### Project structure
+
+- `index.html` — page markup and app containers
+- `assets/css/` — base, app, and print styles
+- `assets/js/app.js` — browser-only app logic
+- `assets/images/` — logo and image assets
 
 ### Credits
 
@@ -127,9 +150,23 @@ Logo provided by the restaurant owner. Built with [Claude](https://claude.ai).
 - 中英双语界面 — 右上角点击 EN / 中 切换
 - 加载后可离线使用
 - 数据自动保存在浏览器中
+- 可选 Google Analytics 4 使用统计
 - 支持打印小费总结
 - 缺少角色时自动重分 — 若某桌没有助手，10% 会按比例分给厨师和服务员（设置中可关闭）
 - 优先适配手机，平板和电脑也可使用
+
+### Google Analytics
+
+应用内置可选的 Google Analytics 4 统计。如需启用：
+
+1. 在 Google Analytics 创建 GA4 网站数据流
+2. 复制 Measurement ID，格式类似 `G-ABC1234567`
+3. 打开 `index.html`
+4. 将 `G-XXXXXXXXXX` 替换为真实 Measurement ID
+
+未替换占位符时，统计功能不会启用。
+
+应用只记录汇总使用事件，例如页面加载、语言切换、添加/移除员工、添加/移除桌台、切换人员指派、切换缺失角色重分、复制总结、打印、重置当日等。不会发送员工姓名、桌台名称或小费金额。
 
 ### 计算方式
 
@@ -151,7 +188,9 @@ Logo provided by the restaurant owner. Built with [Claude](https://claude.ai).
 
 ### 隐私
 
-所有数据 — 员工姓名、桌台记录、小费金额 — 仅保存在使用应用的设备浏览器本地存储中。不会上传到任何服务器。每台手机、平板或电脑有各自独立的数据。
+员工姓名、桌台记录、小费金额仅保存在使用应用的设备浏览器本地存储中。不会发送给应用所有者或自定义服务器。每台手机、平板或电脑有各自独立的数据。
+
+如果启用 Google Analytics，汇总使用事件会发送到 Google Analytics。这些事件只描述应用如何被使用，不包含员工姓名、桌台名称或小费金额。
 
 这意味着：
 - 不同设备之间不会共享数据
@@ -160,13 +199,20 @@ Logo provided by the restaurant owner. Built with [Claude](https://claude.ai).
 
 ### 自行部署
 
-这是一个独立的静态 HTML 文件。如需自行托管：
+这是一个静态浏览器应用。如需自行托管：
 
-1. 下载 `index.html`
-2. 上传至任何静态托管服务 — GitHub Pages、Netlify、Cloudflare Pages 均可
-3. 用任意现代浏览器打开即可
+1. 下载 `index.html` 和 `assets/` 文件夹
+2. 将它们一起上传至任何静态托管服务 — GitHub Pages、Netlify、Cloudflare Pages 均可
+3. 用任意现代浏览器打开 `index.html` 即可
 
 无需编译，无依赖，无后端。
+
+### 项目结构
+
+- `index.html` — 页面结构和应用容器
+- `assets/css/` — 基础样式、应用样式和打印样式
+- `assets/js/app.js` — 浏览器端应用逻辑
+- `assets/images/` — Logo 和图片资源
 
 ### 致谢
 
